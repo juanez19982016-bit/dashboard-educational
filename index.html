@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDU OS | v5.0 FINTECH</title>
+    <title>EDU OS | v7.0 PDF REPORTING</title>
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
     <script>
         tailwind.config = { theme: { extend: { colors: { dark: '#0a0a0a', darker: '#000000', border: '#222', primary: '#10b981', accent: '#34d399' }, fontFamily: { sans: ['DM Sans', 'sans-serif'], mono: ['Space Mono', 'monospace'] } } } }
     </script>
@@ -37,18 +39,18 @@
         <div class="p-6 border-b border-border">
             <h1 class="font-bold text-lg text-emerald-500 tracking-tighter">EDU<span class="text-white">FINANCE</span>
             </h1>
-            <p class="text-[10px] text-gray-500 mt-1">v5.0 ROI MODELER</p>
+            <p class="text-[10px] text-gray-500 mt-1">v7.0 REAL PDF EXPORTS</p>
         </div>
 
         <div class="p-6 overflow-y-auto space-y-6">
             <div>
-                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-2">PRODUCT PRICE ($)</label>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-2">COURSE PRICE ($)</label>
                 <input type="number" id="price" value="297" oninput="calc()"
                     class="w-full bg-[#111] border border-border text-white p-3 rounded text-right font-mono focus:border-emerald-500 outline-none">
             </div>
 
             <div>
-                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-2">AD SPEND BUDGET ($)</label>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-2">AD SPEND ($)</label>
                 <input type="number" id="adspend" value="1000" oninput="calc()"
                     class="w-full bg-[#111] border border-border text-white p-3 rounded text-right font-mono focus:border-emerald-500 outline-none">
             </div>
@@ -69,7 +71,7 @@
             <div class="pt-6 border-t border-border">
                 <a href="https://drive.google.com/open?id=1P92PpSc2S6aRIZMiklceYYLkWZ_w7jOX" target="_blank"
                     class="block w-full text-center py-3 bg-white/5 hover:bg-white/10 rounded text-gray-400 hover:text-white transition-all">📂
-                    Access 5M Resources</a>
+                    5M Resources Database</a>
             </div>
         </div>
     </aside>
@@ -119,7 +121,7 @@
             <!-- SCENARIO TABLE -->
             <div class="glass p-8 rounded-2xl">
                 <h3 class="text-lg font-bold mb-6">Scenario Planning</h3>
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left border-collapse" id="scenario-table">
                     <thead>
                         <tr class="text-xs text-gray-500 border-b border-gray-800">
                             <th class="pb-3 uppercase">Scenario</th>
@@ -146,15 +148,17 @@
                     </tbody>
                 </table>
 
-                <button onclick="alert('PDF Report Generated (Simulation)')"
-                    class="w-full mt-8 py-3 border border-emerald-500/30 text-emerald-400 rounded hover:bg-emerald-500/10 transition-all text-xs font-bold">DOWNLOAD
-                    FINANCIAL REPORT</button>
+                <button onclick="generatePDF()"
+                    class="w-full mt-8 py-3 border border-emerald-500/30 text-emerald-400 rounded hover:bg-emerald-500/10 transition-all text-xs font-bold flex items-center justify-center gap-2">
+                    📄 DOWNLOAD PDF REPORT
+                </button>
             </div>
         </div>
-
     </main>
 
     <script>
+        window.jsPDF = window.jspdf.jsPDF;
+
         function calc() {
             // Inputs
             const price = parseFloat(document.getElementById('price').value) || 0;
@@ -193,8 +197,58 @@
             document.getElementById('scen-curr-rate').innerText = conv.toFixed(1) + '%';
             document.getElementById('scen-curr-val').innerText = '$' + profit.toLocaleString();
 
-            // Color coding scenarios
             document.getElementById('scen-pess').className = profitPess > 0 ? 'py-4 text-right text-green-500' : 'py-4 text-right text-red-500';
+
+            // Expose for PDF
+            window.currData = { price, adspend, cpl, conv, leads, sales, revenue, profit, roi, profitPess, profitOpt };
+        }
+
+        function generatePDF() {
+            const doc = new jsPDF();
+            const d = window.currData;
+
+            // Header
+            doc.setFontSize(20);
+            doc.setTextColor(16, 185, 129); // Emerald Green
+            doc.text("EDU FINANCE REPORT", 20, 20);
+
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text("Generated by Educational OS v7.0", 20, 26);
+            doc.text(new Date().toLocaleString(), 20, 32);
+
+            // Summary Table
+            doc.autoTable({
+                startY: 40,
+                head: [['Metric', 'Value']],
+                body: [
+                    ['Course Price', `$${d.price}`],
+                    ['Ad Budget', `$${d.adspend}`],
+                    ['Cost Per Lead', `$${d.cpl}`],
+                    ['Leads Generated', d.leads],
+                    ['Est. Sales', d.sales],
+                    ['Total Revenue', `$${d.revenue}`],
+                    ['NET PROFIT', `$${d.profit}`],
+                    ['ROI', `${d.roi}%`]
+                ],
+                theme: 'grid',
+                headStyles: { fillColor: [16, 185, 129] }
+            });
+
+            // Scenarios
+            doc.text("Scenario Analysis", 20, doc.lastAutoTable.finalY + 15);
+            doc.autoTable({
+                startY: doc.lastAutoTable.finalY + 20,
+                head: [['Scenario', 'Start Rate', 'Net Profit']],
+                body: [
+                    ['Pessimistic', '1.0%', `$${d.profitPess}`],
+                    ['Current', `${d.conv}%`, `$${d.profit}`],
+                    ['Optimistic', '5.0%', `$${d.profitOpt}`]
+                ],
+                theme: 'striped'
+            });
+
+            doc.save("financial_projection.pdf");
         }
 
         // Init
