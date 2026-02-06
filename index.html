@@ -4,534 +4,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDUCATIONAL PACK | Digital Empire Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>EDUCATIONAL OS | v4.0 Quantum</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { dark: '#050505', card: '#0A0A0A', border: '#1F1F1F', primary: '#10b981', accent: '#34d399' }, fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['Space Grotesk', 'monospace'] } } } }
+    </script>
     <style>
-        :root {
-            --bg: #09090b;
-            --sidebar: #18181b;
-            --card: #27272a;
-            --hover: #3f3f46;
-            --primary: #22c55e;
-            --green: #22c55e;
-            --cyan: #0ea5e9;
-            --text: #fafafa;
-            --subtext: #a1a1aa;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
+            background-color: #050505;
+            color: #e5e5e5;
         }
 
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid #333;
-            flex-shrink: 0;
-        }
-
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .logo-sub {
-            font-size: 0.7rem;
-            color: var(--subtext);
-            margin-bottom: 15px;
-        }
-
-        .pack-badge {
-            background: linear-gradient(135deg, var(--green), var(--cyan));
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .menu-item {
-            padding: 12px 15px;
-            border-radius: 8px;
-            color: var(--subtext);
-            cursor: pointer;
-            transition: 0.2s;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
-        }
-
-        .menu-item:hover,
-        .menu-item.active {
-            background-color: var(--card);
-            color: var(--text);
-        }
-
-        .menu-item.active {
-            border-left: 3px solid var(--primary);
-        }
-
-        .menu-divider {
-            border-top: 1px solid #333;
-            margin: 15px 0;
-        }
-
-        .menu-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: var(--subtext);
-            letter-spacing: 1px;
-            padding: 0 15px;
-            margin-bottom: 10px;
-        }
-
-        .main {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-            background: var(--bg);
-        }
-
-        h1 {
-            margin-top: 0;
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .welcome-text {
-            color: var(--subtext);
-            margin-bottom: 30px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background-color: var(--card);
-            padding: 25px;
-            border-radius: 15px;
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .tag {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--green);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
-
-        .card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.1rem;
-        }
-
-        .card p {
-            color: var(--subtext);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            text-align: center;
-            background: var(--text);
-            color: var(--bg);
-            padding: 10px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.2s;
-            border: none;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-
-        .btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn.drive-btn {
-            background: linear-gradient(135deg, #4285f4, #34a853);
-            color: white;
-        }
-
-        .btn.drive-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(66, 133, 244, 0.3);
-        }
-
-        .section {
-            display: none;
-            animation: fadeIn 0.3s;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .info-box {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid var(--green);
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-bottom: 25px;
-        }
-
-        .info-box h4 {
-            color: var(--green);
-            margin-bottom: 5px;
-        }
-
-        .info-box p {
-            color: var(--subtext);
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .resource-card {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
-        }
-
-        .resource-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .resource-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
-        .resource-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .resource-desc {
-            color: var(--subtext);
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .file-count {
-            display: inline-block;
-            background: rgba(14, 165, 233, 0.2);
-            color: var(--cyan);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        /* Calculator Tool */
-        .tool-container {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 500px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--subtext);
-        }
-
-        .calc-input-wrapper {
-            position: relative;
-        }
-
-        .calc-symbol {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--subtext);
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 12px 12px 35px;
-            background-color: var(--bg);
-            border: 1px solid #333;
-            border-radius: 8px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .calc-results {
-            background: var(--bg);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 25px;
-            text-align: center;
-        }
-
-        .calc-row {
-            padding: 15px 0;
-            border-bottom: 1px solid #333;
-        }
-
-        .calc-row:last-child {
-            border-bottom: none;
-        }
-
-        .calc-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--subtext);
-            margin-bottom: 5px;
-        }
-
-        .calc-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--cyan);
-        }
-
-        .calc-value.profit {
-            font-size: 2.5rem;
-            color: var(--green);
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                display: none;
-            }
+        .glow:hover {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            border-color: #10b981;
         }
     </style>
 </head>
 
-<body>
-    <aside class="sidebar">
-        <div class="logo">📚 EDUCATIONAL</div>
-        <div class="logo-sub">PACK 3 DASHBOARD</div>
-
-        <div class="pack-badge">🎓 EDUCATIONAL PACK</div>
-
-        <div class="menu-item active" onclick="showSection('home')">🏠 Home</div>
-
-        <div class="menu-divider"></div>
-        <div class="menu-label">Software Tool</div>
-        <div class="menu-item" onclick="showSection('calculator')">📊 Course Calculator</div>
-
-        <div class="menu-divider"></div>
-        <div class="menu-label">Resources</div>
-        <div class="menu-item" onclick="showSection('resources')">📂 Download Files</div>
+<body class="flex h-screen overflow-hidden">
+    <aside class="w-64 bg-black border-r border-[#1F1F1F] flex flex-col justify-between hidden md:flex">
+        <div class="p-6">
+            <h1 class="font-mono text-xl font-bold tracking-tighter text-emerald-500">EDU OS <span
+                    class="text-xs text-gray-500 block">v4.0 QUANTUM</span></h1>
+        </div>
+        <nav class="flex-1 px-4 space-y-2">
+            <a onclick="showSection('calc')"
+                class="block p-3 rounded-lg hover:bg-white/5 cursor-pointer text-white bg-white/5">📊 ROI Calculator</a>
+            <a onclick="showSection('resources')"
+                class="block p-3 rounded-lg hover:bg-white/5 cursor-pointer text-gray-400">📂 5M Resources</a>
+        </nav>
     </aside>
+    <main class="flex-1 flex flex-col relative bg-dark">
+        <header class="h-16 border-b border-[#1F1F1F] flex items-center justify-between px-8 bg-black/50 backdrop-blur">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-xs font-mono text-emerald-500">SYSTEM ONLINE</span></div>
+            <a href="https://drive.google.com/open?id=1P92PpSc2S6aRIZMiklceYYLkWZ_w7jOX" target="_blank"
+                class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-full text-xs font-bold text-white transition-all">ACCESS
+                DRIVE FILES →</a>
+        </header>
 
-    <main class="main">
-        <!-- HOME -->
-        <div id="home" class="section active">
-            <h1>Welcome to Educational Pack! 🎓</h1>
-            <p class="welcome-text">Tu acceso exclusivo a recursos para educadores, profesores y creadores de cursos.
-            </p>
-
-            <div class="info-box">
-                <h4>✨ Tu Pack Incluye</h4>
-                <p>Lesson Plans + Assessment Guides + Parent Communication Templates + Course Creation Framework + ROI
-                    Calculator.</p>
-            </div>
-
-            <h3 style="margin-bottom: 15px; color: var(--subtext);">ACCESO RÁPIDO</h3>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>📊 Course ROI Calculator</h3>
-                        <span class="tag">SOFTWARE</span>
+        <!-- CALCULATOR VIEW -->
+        <div id="view-calc" class="p-8 h-full flex flex-col items-center justify-center">
+            <div class="glass p-8 rounded-2xl w-full max-w-md border border-gray-800">
+                <h2 class="text-2xl font-bold mb-6 text-center">Course Profit Calculator</h2>
+                <div class="space-y-4">
+                    <div><label class="text-xs text-gray-500 font-bold">COURSE PRICE ($)</label><input type="number"
+                            id="price" value="97" oninput="calc()"
+                            class="w-full bg-black border border-gray-800 p-3 rounded text-white text-right font-mono text-xl outline-none focus:border-emerald-500">
                     </div>
-                    <p>Calcula tus ganancias potenciales antes de lanzar tu curso.</p>
-                    <button class="btn" onclick="showSection('calculator')">Usar Herramienta</button>
+                    <div><label class="text-xs text-gray-500 font-bold">STUDENTS</label><input type="number"
+                            id="students" value="100" oninput="calc()"
+                            class="w-full bg-black border border-gray-800 p-3 rounded text-white text-right font-mono text-xl outline-none focus:border-emerald-500">
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3>📂 Descargar Archivos</h3>
-                        <span class="tag">DRIVE</span>
-                    </div>
-                    <p>Lesson plans, templates y guías para educadores.</p>
-                    <button class="btn" onclick="showSection('resources')">Ver Recursos</button>
+                <div class="mt-8 pt-8 border-t border-gray-800 text-center">
+                    <p class="text-xs text-gray-500 mb-2">PROJECTED REVENUE</p>
+                    <h1 id="revenue" class="text-5xl font-mono font-bold text-emerald-400">$9,700</h1>
                 </div>
             </div>
         </div>
 
-        <!-- CALCULATOR TOOL -->
-        <div id="calculator" class="section">
-            <h1>📊 Course Income Calculator</h1>
-            <p class="welcome-text">Planifica tu lanzamiento. Visualiza tus ganancias.</p>
-
-            <div class="tool-container">
-                <div class="form-group">
-                    <label>💰 Precio por Estudiante / Curso</label>
-                    <div class="calc-input-wrapper">
-                        <span class="calc-symbol">$</span>
-                        <input type="number" id="price" value="97" oninput="calculate()">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>👥 Número de Estudiantes (Est.)</label>
-                    <div class="calc-input-wrapper">
-                        <span class="calc-symbol">#</span>
-                        <input type="number" id="students" value="20" oninput="calculate()">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>📉 Gastos (Ads, Hosting, Software)</label>
-                    <div class="calc-input-wrapper">
-                        <span class="calc-symbol">$</span>
-                        <input type="number" id="expenses" value="50" oninput="calculate()">
-                    </div>
-                </div>
-
-                <div class="calc-results">
-                    <div class="calc-row">
-                        <div class="calc-label">Ingresos Totales</div>
-                        <div class="calc-value" id="revenue">$1,940.00</div>
-                    </div>
-                    <div class="calc-row">
-                        <div class="calc-label">Ganancia Neta</div>
-                        <div class="calc-value profit" id="profit">$1,890.00</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- RESOURCES -->
-        <div id="resources" class="section">
-            <h1>📂 Tus Recursos Educativos</h1>
-            <p class="welcome-text">Descarga todos tus archivos directamente desde Google Drive.</p>
-
-            <div class="info-box">
-                <h4>📥 Instrucciones</h4>
-                <p>Haz clic en el botón para abrir la carpeta en Google Drive. Incluye lesson plans, assessment guides,
-                    y más.</p>
-            </div>
-
-            <div class="resource-grid">
-                <div class="resource-card">
-                    <div class="resource-icon">🎓</div>
-                    <div class="resource-title">Educational Resources Kit</div>
-                    <div class="file-count">Todo Incluido</div>
-                    <div class="resource-desc">Lesson Plans, Assessment Guides, Parent Communication Templates, Course
-                        Creation Framework y más recursos para educadores.</div>
-                    <a href="https://drive.google.com/open?id=1P92PpSc2S6aRIZMiklceYYLkWZ_w7jOX" target="_blank"
-                        class="btn drive-btn">
-                        📁 Abrir en Google Drive
-                    </a>
+        <!-- RESOURCES VIEW -->
+        <div id="view-resources" class="p-8 hidden">
+            <h2 class="text-2xl font-bold mb-6">📂 5 Million Education Resources</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass p-6 rounded-xl border border-gray-800 hover:border-emerald-500 transition-all cursor-pointer"
+                    onclick="window.open('https://drive.google.com/open?id=1P92PpSc2S6aRIZMiklceYYLkWZ_w7jOX')">
+                    <h3 class="font-bold text-white">🎓 Teaching Materials</h3>
+                    <p class="text-sm text-gray-500 mt-2">Lesson plans, worksheets, STEM.</p>
                 </div>
             </div>
         </div>
     </main>
-
     <script>
-        function showSection(id) {
-            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.closest('.menu-item')?.classList.add('active');
-        }
-
-        function calculate() {
-            const price = parseFloat(document.getElementById('price').value) || 0;
-            const students = parseFloat(document.getElementById('students').value) || 0;
-            const expenses = parseFloat(document.getElementById('expenses').value) || 0;
-
-            const revenue = price * students;
-            const profit = revenue - expenses;
-
-            document.getElementById('revenue').innerText = formatMoney(revenue);
-            document.getElementById('profit').innerText = formatMoney(profit);
-        }
-
-        function formatMoney(amount) {
-            return '$' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        }
-
-        calculate();
+        function showSection(id) { document.getElementById('view-calc').classList.add('hidden'); document.getElementById('view-resources').classList.add('hidden'); document.getElementById('view-' + id).classList.remove('hidden'); }
+        function calc() { const p = parseFloat(document.getElementById('price').value) || 0; const s = parseFloat(document.getElementById('students').value) || 0; document.getElementById('revenue').innerText = '$' + (p * s).toLocaleString(); }
+        calc();
     </script>
 </body>
 
